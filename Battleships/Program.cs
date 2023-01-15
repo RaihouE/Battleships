@@ -5,15 +5,17 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        var ships = new List<int> { 4, 4, 5, 3, 5 };
+        var ships = new List<int> { 4, 4, 5 };
         var gridSize = 10;
         var maxScore = ships.Sum();
         var currentScore = 0;
         var grid = GridBuilder.InitGrid(gridSize, ships);
 
+        Console.WriteLine("Welcome to single player battleships");
+        Console.WriteLine("Your goal is to hit {0} length ships", string.Join(",", ships));
+        Console.WriteLine();
         while (currentScore < maxScore)
         {
-            Console.WriteLine("Welcome to single player battleships");
             DrawGrid(grid, gridSize);
             var userInput = GetUserInput(gridSize);
 
@@ -29,6 +31,8 @@ internal class Program
             {
                 currentScore++;
             }
+
+            Console.WriteLine("It was a {0}!", newState.ToString());
         }
 
         Console.WriteLine();
@@ -43,6 +47,7 @@ internal class Program
         UserInput? userInput = null;
         while (!isInputValid && userInput is null)
         {
+            Console.WriteLine();
             Console.WriteLine("Please input coordinates to hit a ship! eg A5");
             Console.WriteLine();
             var input = Console.ReadLine();
@@ -76,7 +81,6 @@ internal class Program
                 {
                     State.Miss => "o",
                     State.Hit => "x",
-                    State.Ship => "1",
                     _ => " "
                 };
                 Console.Write("[{0}]", symbol);
